@@ -1,0 +1,244 @@
+[
+  {
+    "category": "Muffins",
+    "items": [
+      {
+        "id": 1,
+        "name": "Blueberry",
+        "description": "",
+        "price": 2.95,
+        "category": "Muffins"
+      },
+      {
+        "id": 2,
+        "name": "Blueberry lemon",
+        "description": "",
+        "price": 2.95,
+        "category": "Muffins"
+      },
+      {
+        "id": 3,
+        "name": "French breakfast",
+        "description": "",
+        "price": 2.95,
+        "category": "Muffins"
+      },
+      {
+        "id": 4,
+        "name": "Cranberry orange",
+        "description": "",
+        "price": 2.95,
+        "category": "Muffins"
+      },
+      {
+        "id": 5,
+        "name": "Chocolate chip",
+        "description": "",
+        "price": 2.95,
+        "category": "Muffins"
+      },
+      {
+        "id": 6,
+        "name": "Bran",
+        "description": "",
+        "price": 2.95,
+        "category": "Muffins"
+      }
+    ]
+  },
+  {
+    "category": "Scones",
+    "items": [
+      {
+        "id": 7,
+        "name": "Blueberry",
+        "description": "",
+        "price": 2.95,
+        "category": "Scones"
+      },
+      {
+        "id": 8,
+        "name": "Chocolate chip",
+        "description": "",
+        "price": 2.95,
+        "category": "Scones"
+      },
+      {
+        "id": 9,
+        "name": "Cinnamon chip",
+        "description": "",
+        "price": 2.95,
+        "category": "Scones"
+      },
+      {
+        "id": 10,
+        "name": "Raspberry chocolate chip",
+        "description": "",
+        "price": 2.95,
+        "category": "Scones"
+      },
+      {
+        "id": 11,
+        "name": "James",
+        "description": "(blueberry, raspberry, and lemon)",
+        "price": 2.95,
+        "category": "Scones"
+      },
+      {
+        "id": 12,
+        "name": "Cream cheese & fruit",
+        "description": "(daily variation)",
+        "price": 2.95,
+        "category": "Scones"
+      }
+    ]
+  },
+  {
+    "category": "Cookies & Biscotti",
+    "items": [
+      {
+        "id": 13,
+        "name": "Chocolate chip",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 14,
+        "name": "Molasses",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 15,
+        "name": "Chocolate brownie",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 16,
+        "name": "Chocolate espresso",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 17,
+        "name": "Hermits",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 18,
+        "name": "Oatmeal chocolate chip",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 19,
+        "name": "Toffee butter crunch",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 20,
+        "name": "Blueberry lemon biscotti",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 21,
+        "name": "Chocolate chip biscotti",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 22,
+        "name": "Lemon biscotti",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 23,
+        "name": "Cinnamon chip biscotti",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      },
+      {
+        "id": 24,
+        "name": "Special Cookie of the month!",
+        "description": "",
+        "price": 2.95,
+        "category": "Cookies & Biscotti"
+      }
+    ]
+  },
+  {
+    "category": "Other Baked Goods",
+    "items": [
+      {
+        "id": 25,
+        "name": "Cinnamon rolls",
+        "description": "",
+        "price": 2.95,
+        "category": "Other Baked Goods"
+      },
+      {
+        "id": 26,
+        "name": "Chocolate brownies",
+        "description": "",
+        "price": 2.95,
+        "category": "Other Baked Goods"
+      },
+      {
+        "id": 27,
+        "name": "Bundt cake, by the slice",
+        "description": "Flavors: Banana chocolate chip, Blueberry lemon, Apple spice (dairy free), Carrot, Pumpkin cream cheese swirl, Gingerbread",
+        "price": 2.95,
+        "category": "Other Baked Goods"
+      }
+    ]
+  },
+  {
+    "category": "Gluten Free Baked Goods",
+    "items": [
+      {
+        "id": 28,
+        "name": "Cinnamon sugar donuts",
+        "description": "From Annie's in Shirley, MA",
+        "price": 2.95,
+        "category": "Gluten Free Baked Goods"
+      },
+      {
+        "id": 29,
+        "name": "Mini banana loaf",
+        "description": "From Annie's in Shirley, MA",
+        "price": 2.95,
+        "category": "Gluten Free Baked Goods"
+      },
+      {
+        "id": 30,
+        "name": "Mini pumpkin loaf",
+        "description": "From Annie's in Shirley, MA",
+        "price": 2.95,
+        "category": "Gluten Free Baked Goods"
+      },
+      {
+        "id": 31,
+        "name": "Cranberry orange scone",
+        "description": "From Annie's in Shirley, MA",
+        "price": 2.95,
+        "category": "Gluten Free Baked Goods"
+      }
+    ]
+  }
+]
