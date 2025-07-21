@@ -1,0 +1,45 @@
+.whop-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 12px 18px;
+  background-color: white;
+  width: fit-content;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.logo-img {
+  min-width: 100px;
+  width: 15%;
+  height: auto;
+  /* margin-bottom: 30px; */
+  object-fit: contain;
+}
+
+.logo-text {
+  line-height: 1.1;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  color: #000;
+}
+
+.logo-text .top {
+  font-size: 1.1rem;
+  display: block;
+}
+
+.logo-text .bottom {
+  font-size: 1.8rem;
+  font-weight: bold;
+  display: block;
+  margin-top: 5px;
+}
