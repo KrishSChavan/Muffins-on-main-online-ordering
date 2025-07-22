@@ -64,6 +64,7 @@
 /* === ORDER DRAWER === */
 #orderDrawer {
   position: fixed;
+  overflow: hidden;
   top: 0;
   right: -350px;
   height: 100%;
@@ -235,7 +236,7 @@
   align-items: left;
 }
 
-.client-info {
+/* .client-info {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -263,7 +264,7 @@
   font-style: italic;
   font-size: 15px;
   letter-spacing: 0.3px;
-}
+} */
 
 .total_wrapper {
   display: flex;
@@ -279,22 +280,6 @@
 }
 .total_wrapper strong {
   margin-top: 10px;
-}
-
-#submit_order {
-  background-color: #2ecc71;
-  color: white;
-  font-weight: 700;
-  border: none;
-  padding: 10px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.2s;
-}
-
-#submit_order:hover {
-  background-color: #27ae60;
 }
 
 #cartAlert {
