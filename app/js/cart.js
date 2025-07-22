@@ -1,3 +1,4 @@
+const goToOrderDetailsBtn = document.getElementById('go-to-order-details');
 const submitOrderBtn = document.getElementById('submit_order');
 const orderList = document.getElementById('orderList');
 const subtotal_elem = document.getElementById('subtotal');
@@ -24,6 +25,7 @@ function addToCart(order) {
   updateCartCount();
   renderCart();
   showCartAlert(`${order.item} added to cart`);
+  goToOrderDetailsBtn.disabled = false;
 }
 
 // Update cart count badge
@@ -33,13 +35,11 @@ function updateCartCount() {
 
 // Render cart items inside the drawer
 function renderCart() {
-
-  console.log(cart);
-
   orderList.innerHTML = '';
 
   if (cart.length === 0) {
     orderList.innerHTML = '<li><em>Your cart is empty.</em></li>';
+    goToOrderDetailsBtn.disabled = true;
     return;
   }
 
