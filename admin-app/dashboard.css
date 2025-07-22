@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6f8;
+  color: #333;
+}
+
+.no-orders {
+  color: #525252;
+  text-align: center;
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 600;
+}
+
+
+.dashboard {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+.order-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.order-info h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+  color: #34495e;
+}
+
+.order-info p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+}
+
+.items {
+  margin-top: 12px;
+}
+
+.items ul {
+  padding-left: 20px;
+  margin: 5px 0 0;
+}
+
+.items li {
+  margin-bottom: 4px;
+}
+
+
+
+.order-buttons {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: space-between;
+  gap: 40px;
+}
+.order-buttons button {
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.order-details {
+  background-color: #6c757d;
+}
+.order-details:hover {
+  background-color: #4c5358;
+}
+
+.print-btn {
+  background-color: #28a745;
+}
+.print-btn:hover {
+  background-color: #1b712e;
+}
+
+.complete-btn {
+  background-color: #e74c3c;
+}
+.complete-btn:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 600px) {
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .complete-btn {
+    align-self: stretch;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
