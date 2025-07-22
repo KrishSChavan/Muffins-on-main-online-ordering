@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- App icon for iOS (must be 180x180 PNG) -->
-  <link rel="apple-touch-icon" href="/images/whop-icon-180.png">
+  <link rel="apple-touch-icon" href="/images/Mom-icon.png">
 
   <title>Order Online | Muffins on Main</title>
   
@@ -29,9 +29,9 @@
   <link rel="stylesheet" href="./css/navbar.css" />
   <link rel="stylesheet" href="./css/main.css" />
   <link rel="stylesheet" href="./css/modal.css" />
-  <link rel="stylesheet" href="./css/toppings.css" />
   <link rel="stylesheet" href="./css/download-steps.css" />
   <link rel="stylesheet" href="./css/footer.css" />
+  <link rel="stylesheet" href="./css/cart.css" />
 
   <link rel="manifest" href="/manifest.json">
 
@@ -58,36 +58,56 @@
         <button id="closeDrawer">Close</button>
       </div>
 
-      <div class="orderListContainer">
-        <div class="top-shadow"></div>
+      <div class="order_drawer_content">
+        <div id="cart-items" class="cart_window">
+          <div class="orderListContainer">
+            <div class="top-shadow"></div>
 
-        <div id="orderListWrapper">
-          <ul id="orderList"></ul>
+            <div id="orderListWrapper">
+              <ul id="orderList"></ul>
+            </div>
+
+            <div class="bottom-shadow"></div>
+          </div>
+
+          <div class="cart_bottom">
+            <div id="cartTotalContainer">
+              <div class="total_wrapper">
+                <p>Subtotal:<span id="subtotal">$0.00</span></p>
+                <p>Tax (6.25%):<span id="tax">$0.00</span></p>
+                <strong><p>Total:<span id="total">$0.00</span></p></strong>
+              </div>
+            </div>
+            <button id="go-to-order-details" disabled>Go to order details &rarr;</button>
+          </div>
         </div>
 
-        <div class="bottom-shadow"></div>
-      </div>
-
-      <div class="cart_bottom">
-        <div id="cartTotalContainer">
+        <div id="order-details" class=cart_window>
           <div class="client-info">
-            <input id="client-name" type="text" placeholder="Your Name" />
-            <input id="client-phone-number" type="tel" placeholder="Phone Number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" />
-            <div class="pickup-info">
+            <div>
+              <label for="client-name">Name for order:</label>
+              <input id="client-name" type="text" placeholder="John Doe" />
+            </div>
+            <div>
+              <label for="client-phone-number">Number for alerts:</label>
+              <input id="client-phone-number" type="tel" placeholder="Phone Number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" />
+            </div>
+            <div>
               <label for="pickup-date">Pickup Date:</label>
               <input id="pickup-date" type="date" />
+            </div>
+            <div>
               <label for="pickup-time">Pickup Time:</label>
               <input id="pickup-time" type="time" />
             </div>
           </div>
-          <div class="total_wrapper">
-            <p>Subtotal:<span id="subtotal">$0.00</span></p>
-            <p>Tax (6.25%):<span id="tax">$0.00</span></p>
-            <strong><p>Total:<span id="total">$0.00</span></p></strong>
+          <div class="bottom_btns">
+            <button id="back-to-items-list">&larr;</button>
+            <button id="submit_order">Submit Order</button>
           </div>
         </div>
-        <button id="submit_order">Submit Order</button>
       </div>
+      
     </div>
 
     
