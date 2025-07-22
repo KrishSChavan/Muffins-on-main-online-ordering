@@ -36,7 +36,7 @@ const client_name_input = document.getElementById('client-name');
 const client_phone_number_input = document.getElementById('client-phone-number');
 
 submit_order_btn.addEventListener('click', () => {  
-  if (cart.length == 0) return;
+  if (cart.length === 0) return;
   let client_name = client_name_input.value.trim();
   let client_phone_number = client_phone_number_input.value.trim();
 
