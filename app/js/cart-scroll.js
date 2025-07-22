@@ -16,3 +16,28 @@ function updateShadows() {
 orderListWrapper.addEventListener('scroll', updateShadows);
 window.addEventListener('resize', updateShadows);
 document.addEventListener('DOMContentLoaded', updateShadows);
+
+
+
+
+
+
+const itemsList = document.querySelector('#cart-items');
+const orderDetails = document.querySelector('#order-details');
+const drawer_content = document.querySelector('.order_drawer_content');
+const backToItemsList = document.querySelector('#back-to-items-list');
+
+
+goToOrderDetailsBtn.addEventListener('click', () => {
+  if (cart.length === 0) {
+    showCustomAlert('Your cart is empty. Please add items to your cart before proceeding.', "error");
+    return;
+  }
+
+  drawer_content.style.transform = 'translateX(-340px)'; // slide to 2nd element
+});
+
+
+backToItemsList.addEventListener('click', () => {
+  drawer_content.style.transform = 'translateX(0)'; // slide back to 1st element
+});
