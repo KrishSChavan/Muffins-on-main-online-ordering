@@ -285,13 +285,13 @@ h1 {
   animation: slideOutRight 0.3s ease-in forwards;
 }
 
-.client-info .pickup-info label {
+/* .client-info .pickup-info label {
   display: block;
   margin-bottom: 5px;
-}
+} */
 
-.client-info .pickup-info input[type="date"],
+/* .client-info .pickup-info input[type="date"],
 .client-info .pickup-info input[type="time"] {
   margin-bottom: 8px;
   width: 100%;
-}
+} */
