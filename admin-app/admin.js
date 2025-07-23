@@ -1,4 +1,4 @@
-const socket = io('https://whop-online-orders-4e91f3eedbc2.herokuapp.com/');
+const socket = io('http://localhost:3000/');
 
 const ordersContainer = document.getElementById('ordersContainer');
 
@@ -47,49 +47,45 @@ function addOrder(order) {
     hour12: true
   });
 
-  console.log(dateObj);
-  console.log(edtString);
+  // console.log(dateObj);
+  // console.log(edtString);
 
   orderEl.innerHTML = `
-    <div class="order-header">
-      <div class="order-info">
-        <h2>${order.client_name}</h2>
-        <p class="phone"><strong>Phone:</strong> ${order.client_phone_number}</p>
-        <p><strong>Pickup:</strong> ${edtString}</p>
-        <br>
-        <p><strong>Subtotal:</strong> $${order.client_subtotal.toFixed(2)}</p>
-        <p><strong>Tax:</strong> $${order.client_tax.toFixed(2)}</p>
-        <br>
-        <p><strong>Total:</strong> $${order.client_final_total.toFixed(2)}</p>
+    <div class="order-content">
+      <div class="order-header">
+        <div class="order-info">
+          <button id="delete-order">DELETE</button>
+          <h2>${order.client_name}</h2>
+          <p class="phone"><strong>Phone:</strong> ${order.client_phone_number}</p>
+          <p><strong>Pickup:</strong> ${edtString}</p>
+          <br>
+          <p><strong>Subtotal:</strong> $${order.client_subtotal.toFixed(2)}</p>
+          <p><strong>Tax:</strong> $${order.client_tax.toFixed(2)}</p>
+          <br>
+          <p><strong>Total:</strong> $${order.client_final_total.toFixed(2)}</p>
+        </div>
       </div>
-      <div class="order-buttons">
-        <button class="order-details">Print Order Details</button>
-        <button class="print-btn">Print Receipt</button>
-        <button class="complete-btn">Complete Order</button>
+      <div class="items">
+        <strong>Items:</strong>
+        <ul>
+          ${order.client_order.map(item => `
+            <li>${item.item} - ${item.price}</li>
+          `).join('')}
+        </ul>
       </div>
     </div>
-    <div class="items">
-      <strong>Items:</strong>
-      <ul>
-        ${order.client_order.map(item => `
-          <li>${item.item} - ${item.price}</li>
-        `).join('')}
-      </ul>
+    <div class="order-buttons">
+      <button class="order-details">Print Order Details</button>
+      <button class="print-btn">Print Receipt</button>
+      <button class="complete-btn">Complete Order</button>
     </div>
   `;
 
   // Complete order button
   const completeBtn = orderEl.querySelector('.complete-btn');
   completeBtn.addEventListener('click', () => {
-    const card = completeBtn.closest('.order-card');
-    const name = card.querySelector('.order-info h2').innerText;
-    const phone = card.querySelector('.order-info .phone').innerText.split('Phone: ')[1];
-    socket.emit('order-complete', card.id, name, phone);
-    card.remove();
-
-    if (!document.querySelector('.order-card')) {
-      ordersContainer.innerHTML = `<div class="no-orders">No orders</div>`;
-    }
+    completeModal.style.display = 'flex';
+    cardIdToComplete = completeBtn.closest('.order-card').id;
   });
 
   // Print receipt button
@@ -154,7 +150,7 @@ function addOrder(order) {
         </head>
         <body>
           <div class="centered-content">
-            <div class="center bold">WESTFORD HOUSE OF PIZZA</div>
+            <div class="center bold">MUFFINS ON MAIN</div>
             <div class="center">Receipt</div>
             <div class="line"></div>
 
@@ -170,7 +166,6 @@ function addOrder(order) {
                 <span>${item.item}</span>
                 <span>${item.price}</span>
               </div>
-              ${item.toppings.length ? `<div class="toppings">+ ${item.toppings.join(', ')}</div>` : ''}
             `).join('')}
 
             <div class="line"></div>
@@ -185,8 +180,8 @@ function addOrder(order) {
 
             <div class="footer">
               Thank you for your order!<br>
-              westfordpizza.com<br>
-              (978) 692-5555
+              muffinsonmain.com<br>
+              (978) 788-4365
             </div>
             <div class="spacer"></div>
             <div>Powered by Krish Chavan</div>
@@ -254,6 +249,16 @@ function addOrder(order) {
     window.electronAPI.printReceipt(orderDetailsHTML);
   });
 
+
+
+
+  const deleteBtn = orderEl.querySelector('#delete-order');
+  deleteBtn.addEventListener('click', () => {
+    deleteModal.style.display = 'flex';
+    cardIdToDelete = deleteBtn.closest('.order-card').id;
+  });
+
+  
 
   ordersContainer.prepend(orderEl);
 }
