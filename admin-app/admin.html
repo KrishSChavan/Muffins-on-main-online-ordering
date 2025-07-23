@@ -11,8 +11,10 @@
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 
   <script defer src="admin.js"></script>
+  <script defer src="modal.js"></script>
 
   <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="modal.css" />
 
 </head>
 <body>
@@ -21,6 +23,24 @@
     <h1>Incoming Orders</h1>
     <div id="ordersContainer">
       Loading..
+    </div>
+  </div>
+
+
+  <div id="confirmCompleteModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <p>Are you sure you want to COMPLETE this order?</p>
+      <button id="confirmComplete">Yes, Complete</button>
+      <button id="cancelComplete">Cancel</button>
+    </div>
+  </div>
+
+
+  <div id="confirmDeleteModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <p>Are you sure you want to DELETE this order?</p>
+      <button id="confirmDelete">Yes, Delete</button>
+      <button id="cancelDelete">Cancel</button>
     </div>
   </div>
 
