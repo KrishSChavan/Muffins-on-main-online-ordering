@@ -34,10 +34,17 @@ h1 {
   margin-bottom: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .order-card:hover {
   transform: translateY(-2px);
+}
+
+.order-content {
+  width: 100%;
 }
 
 .order-header {
@@ -77,9 +84,8 @@ h1 {
 .order-buttons {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  align-items: space-between;
-  gap: 40px;
+  justify-content: center;
+  gap: 100px;
 }
 .order-buttons button {
   color: white;
@@ -113,6 +119,23 @@ h1 {
 .complete-btn:hover {
   background-color: #c0392b;
 }
+
+
+#delete-order {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+
 
 @media (max-width: 600px) {
   .order-header {
