@@ -1,10 +1,14 @@
-let menuData = [];
+let allMenuData = [];
+let menuDataByCategories = {};
 
 axios.get('/api/menu')
   .then(response => {
-    menuData = response.data;
-    populateCategoryDropdown(menuData);
-    renderMenu(menuData); // initial render
+
+    allMenuData = response.data.data || [];
+    menuDataByCategories = response.data.groupedByCategory || {};
+
+    populateCategoryDropdown(menuDataByCategories);
+    renderMenu(menuDataByCategories); // initial render
   })
   .catch(error => {
     console.error('Error fetching menu:', error);
@@ -15,10 +19,10 @@ function populateCategoryDropdown(data) {
   const select = document.getElementById('categorySelect');
   const search = document.getElementById('searchInput');
 
-  data.forEach(category => {
+  Object.keys(data).forEach(category => {
     const option = document.createElement('option');
-    option.value = category.category;
-    option.textContent = category.category;
+    option.value = category;
+    option.textContent = category;
     select.appendChild(option);
   });
 
@@ -30,59 +34,56 @@ function filterAndRender() {
   const selected = document.getElementById('categorySelect').value;
   const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
 
-  let filteredData = [];
+  let filteredData = {};
 
   if (searchText === '') {
-    // Basic category filter only
-    filteredData = selected === 'all'
-      ? menuData
-      : menuData.filter(cat => cat.category === selected);
+    filteredData = menuDataByCategories; // No search, show all categories
   } else {
     // Fuzzy search across all items
-    const fuse = new Fuse(menuData.flatMap(cat =>
-      cat.items.map(item => ({
-        ...item,
-        category: cat.category
-      }))
-    ), {
-      keys: ['name', 'description'],
-      threshold: 0.4, // smaller = stricter
-    });
+    const options = {
+      keys: ['name', 'description'], // fields to search in each object
+      threshold: 0.4 // how fuzzy: lower = more strict, higher = more matches
+    };
 
+
+    const fuse = new Fuse(allMenuData, options);
     const fuzzyResults = fuse.search(searchText);
-
     const matchedItems = fuzzyResults.map(result => result.item);
 
-    // Group back by category
-    const categoryMap = {};
+    // if (matchedItems.length === 0) {
+    //   document.getElementById('menuContainer').innerHTML = '<p>No matching items found.</p>';
+    //   return;
+    // }
+
     matchedItems.forEach(item => {
-      if (!categoryMap[item.category]) {
-        categoryMap[item.category] = [];
+      const category = item.category;
+      if (!filteredData[category]) {
+        filteredData[category] = [];
       }
-      categoryMap[item.category].push(item);
+      filteredData[category].push(item);
     });
-
-    filteredData = Object.entries(categoryMap).map(([category, items]) => ({
-      category,
-      items
-    }));
-
-    // Also apply category dropdown filter
-    if (selected !== 'all') {
-      filteredData = filteredData.filter(cat => cat.category === selected);
-    }
   }
 
-  renderMenu(filteredData);
+
+  // Also apply category dropdown filter
+  if (selected !== 'all') {
+    newFilteredData = {};
+
+    newFilteredData[selected] = filteredData[selected];
+    renderMenu(newFilteredData);
+  } else {
+    // If "all" is selected, render all filtered data
+    renderMenu(filteredData);
+  }
 }
 
-function renderMenu(data) {
-  console.log(data);
 
+
+function renderMenu(dataGroupedByCategory) {
   const container = document.getElementById('menuContainer');
   container.innerHTML = ''; // Clear previous content
 
-  if (data.length === 0) {
+  if (Object.keys(dataGroupedByCategory).length === 0) { 
     const noItems = document.createElement('div');
     noItems.className = 'no-items fade-in';
     noItems.textContent = 'No menu items found.';
@@ -90,35 +91,16 @@ function renderMenu(data) {
     return;
   }
 
-  data.forEach(category => {
+  Object.keys(dataGroupedByCategory).forEach(category => {
     const categoryDiv = document.createElement('div');
     categoryDiv.className = 'category fade-in';
 
     const title = document.createElement('h2');
-    title.textContent = category.category;
+    title.textContent = category;
     categoryDiv.appendChild(title);
 
-    // Separate items with and without pricing
-    const itemsWithPricing = [];
-    const itemsWithoutPricing = [];
-    category.items.forEach(item => {
-      if (item.price) {
-        itemsWithPricing.push(item);
-      } else {
-        itemsWithoutPricing.push(item);
-      }
-    });
 
-    // Show notes for items without pricing at the top
-    itemsWithoutPricing.forEach(item => {
-      const noteDiv = document.createElement('div');
-      noteDiv.className = 'menu-item-note';
-      noteDiv.textContent = item.name + (item.description ? (': ' + item.description) : '');
-      categoryDiv.appendChild(noteDiv);
-    });
-
-    // Render regular menu items with pricing
-    itemsWithPricing.forEach(item => {
+    dataGroupedByCategory[category].forEach(item => {
       const itemDiv = document.createElement('div');
       itemDiv.className = 'menu-item';
 
@@ -143,7 +125,7 @@ function renderMenu(data) {
       const addToOrderBtn = document.createElement('button');
       addToOrderBtn.className = 'add-to-order-btn';
       addToOrderBtn.textContent = 'Add to Order';
-      // You can add an event listener here for order logic if needed
+      addToOrderBtn.onclick = () => window.showAddToOrderModal(item);
 
       itemDiv.appendChild(menu_item_info_div);
       itemDiv.appendChild(prices);
@@ -153,40 +135,4 @@ function renderMenu(data) {
 
     container.appendChild(categoryDiv);
   });
-
-  // Attach event listeners to Add to Order buttons
-  const addBtns = container.getElementsByClassName('add-to-order-btn');
-  let btnIdx = 0;
-  data.forEach(category => {
-    category.items.forEach(item => {
-      if (item.price) {
-        const btn = addBtns[btnIdx];
-        if (btn) {
-          btn.onclick = () => window.showAddToOrderModal(item, category);
-        }
-        btnIdx++;
-      }
-    });
-  });
 }
-
-// Attach modal logic to Add to Order buttons after menu render
-const origRenderMenu = renderMenu;
-renderMenu = function(data) {
-  origRenderMenu(data);
-  // Attach event listeners to Add to Order buttons
-  const container = document.getElementById('menuContainer');
-  const addBtns = container.getElementsByClassName('add-to-order-btn');
-  let btnIdx = 0;
-  data.forEach(category => {
-    category.items.forEach(item => {
-      if (item.price) {
-        const btn = addBtns[btnIdx];
-        if (btn) {
-          btn.onclick = () => window.showAddToOrderModal(item);
-        }
-        btnIdx++;
-      }
-    });
-  });
-};
