@@ -95,22 +95,35 @@ app.post('/api/orders', async (req, res) => {
 
 
 // GET /menu → serve the JSON
-app.get('/api/menu', (req, res) => {
-  const menuPath = path.join(__dirname, 'menu.json');
+app.get('/api/menu', async (req, res) => {
 
-  fs.readFile(menuPath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Failed to read menu.json:', err);
-      return res.status(500).json({ error: 'Failed to load menu' });
-    }
 
-    try {
-      const menu = JSON.parse(data);
-      res.json(menu);
-    } catch (parseErr) {
-      console.error('Invalid JSON format:', parseErr);
-      res.status(500).json({ error: 'Invalid menu data' });
+  const { data, error } = await supabase
+      .from('menu_items')
+      .select('*')
+
+  if (error) {
+    console.error('Failed to read menu.json:', error);
+    return res.status(500).json({ error: 'Failed to load menu' });
+  }
+
+  // console.log('Menu data:', data);
+
+  // res.json(data);
+
+  const groupedByCategory = {};
+  data.forEach(item => {
+    const category = item.category;
+    if (!groupedByCategory[category]) {
+      groupedByCategory[category] = [];
     }
+    groupedByCategory[category].push(item);
+  });
+
+  // console.log(groupedByCategory);
+  return res.json({
+    data: data,
+    groupedByCategory: groupedByCategory
   });
 });
 
