@@ -169,9 +169,6 @@ h1 {
     /* transform: translateX(50%); */
     /* max-width: 300px; */
   }
-  .navbar {
-    position: relative;
-  }
 }
 
 .menu-item-note {
@@ -300,13 +297,5 @@ h1 {
   animation: slideOutRight 0.3s ease-in forwards;
 }
 
-/* .client-info .pickup-info label {
-  display: block;
-  margin-bottom: 5px;
-} */
 
-/* .client-info .pickup-info input[type="date"],
-.client-info .pickup-info input[type="time"] {
-  margin-bottom: 8px;
-  width: 100%;
-} */
+
