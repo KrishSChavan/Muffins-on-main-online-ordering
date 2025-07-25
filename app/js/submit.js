@@ -46,6 +46,7 @@ submit_order_btn.addEventListener('click', () => {
 
   if (client_name == "") {
     client_name_input.style.borderColor = "red";
+    showCustomAlert('Please fill all fields.', 'error');
     return;
   } else {
     client_name_input.style.borderColor = "black";
@@ -53,6 +54,7 @@ submit_order_btn.addEventListener('click', () => {
 
   if (client_phone_number == "" || !isValidPhoneNumber(client_phone_number)) {
     client_phone_number_input.style.borderColor = "red";
+    showCustomAlert('Please fill all fields.', 'error');
     return;
   } else {
     client_phone_number_input.style.borderColor = "black";
@@ -60,6 +62,7 @@ submit_order_btn.addEventListener('click', () => {
 
   if (pickup_date == "") {
     pickup_date_input.style.borderColor = "red";
+    showCustomAlert('Please fill all fields.', 'error');
     return;
   } else {
     pickup_date_input.style.borderColor = "black";
