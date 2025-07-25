@@ -25,6 +25,9 @@ h1 {
   margin-bottom: 30px;
   font-size: 2rem;
   color: #2c3e50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .order-card {
@@ -148,4 +151,41 @@ h1 {
     width: 100%;
     margin-top: 10px;
   }
+}
+
+
+
+
+#reload-orders-btn {
+  background-color: #395a70;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+#reload-orders-btn:hover {
+  background-color: #324f63;
+}
+
+
+#edit-menu-btn {
+  /* position: absolute;
+  top: 40px;
+  right: 40px; */
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+#edit-menu-btn:hover {
+  background-color: #2980b9;
 }
