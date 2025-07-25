@@ -1,6 +1,6 @@
 {
-  "name": "WHOP Online Orders",
-  "short_name": "WHOP Orders",
+  "name": "Muffing on Main Online Orders",
+  "short_name": "MoM Orders",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
