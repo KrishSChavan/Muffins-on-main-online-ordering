@@ -3,11 +3,13 @@
 .navbar {
   position: sticky;
   top: 0;
-  background-color: #fcf2df; /* Used to be white */
-  border: 2px solid #7b3d1b; /* Didnt exist before */
+  background-color: white;
+  /* background-color: #fcf2df; Used to be white */
+  /* border: 2px solid #7b3d1b; Didnt exist before */
   box-sizing: border-box;
   padding: 10px 20px;
   display: flex;
+  flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
   margin-bottom: 30px;
@@ -15,6 +17,13 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 10px 10px;
 }
+
+.logo-container {
+  aspect-ratio: 1 / 1;
+  width: 100px;
+}
+
+
 
 @media (max-width: 600px) {
   .navbar {
@@ -26,6 +35,12 @@
   #searchInput {
     width: 100%;
     max-width: 100%;
+  }
+  .input-field-container {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
