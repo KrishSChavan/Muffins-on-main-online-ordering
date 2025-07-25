@@ -138,6 +138,14 @@ submit_order_btn.addEventListener('click', () => {
   };
 
   submitOrder(orderData);
+
+  if (localStorage.getItem('hideMoMPwaPopup') === '1') {
+    const popup = document.getElementById('MoM-pwa-popup');
+    popup.style.display = 'block';
+    setTimeout(() => popup.classList.add('active'), 100);
+
+    document.getElementById('MoM-pwa-close').onclick = closeMoMPwaPopup;
+  }
 });
 
 
