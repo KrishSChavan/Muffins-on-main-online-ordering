@@ -10,17 +10,18 @@
 
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 
-  <script defer src="admin.js"></script>
-  <script defer src="modal.js"></script>
+  <script defer src="js/admin/admin.js"></script>
+  <script defer src="js/admin/modal.js"></script>
+  <script defer src="js/admin/buttons.js"></script>
 
-  <link rel="stylesheet" href="dashboard.css" />
-  <link rel="stylesheet" href="modal.css" />
+  <link rel="stylesheet" href="css/admin/dashboard.css" />
+  <link rel="stylesheet" href="css/admin/modal.css" />
 
 </head>
 <body>
 
   <div class="dashboard">
-    <h1>Incoming Orders</h1>
+    <h1>Incoming Orders <button id="reload-orders-btn">Reload &#x21bb;</button> <button id="edit-menu-btn">Edit Menu &#9998;</button></h1>
     <div id="ordersContainer">
       Loading..
     </div>
