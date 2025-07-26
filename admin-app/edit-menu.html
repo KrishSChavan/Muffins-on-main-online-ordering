@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Menu</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 
   <link rel="stylesheet" href="css/edit-menu/main.css" />
+  <link rel="stylesheet" href="css/edit-menu/header.css" />
 
+  <script defer src="js/edit-menu/edit-menu.js"></script>
   <script defer src="js/edit-menu/buttons.js"></script>
 
 </head>
@@ -16,7 +20,17 @@
   
 
   <div class="wrapper">
-    <h1>Edit Menu <button id="reload-menu-btn">Reload &#x21bb;</button> <button id="dashboard-btn">Back to Dashbaord &#8592;</button></h1>
+    <h1>Edit Menu 
+      <button id="reload-menu-btn">Reload &#x21bb;</button>
+      <button id="dashboard-btn">Back to Dashbaord &#8592;</button>
+    </h1>
+    <div class="header">
+      <input type="text" id="searchInput" placeholder="Search items..." autocomplete="off">
+      <select id="categorySelect">
+        <option value="all">All Categories</option>
+      </select>
+      <button id="create-new-item">Add Item &#43;</button>
+    </div>
     <div id="menuContainer">
       Loading menu items...
     </div>
