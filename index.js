@@ -130,7 +130,7 @@ app.get('/api/menu', async (req, res) => {
 
 
 io.on('connection', (socket) => {
-  console.log("Admin connected: ", socket.id);
+  console.log("connection: ", socket.id);
 
   socket.on('get-order-data', async () => {
     const { data, error } = await supabase
@@ -168,10 +168,28 @@ io.on('connection', (socket) => {
       console.error('SMS error:', err);
     }
   });
+
+
+
+  socket.on('add-menu-item', async (newItem) => {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .insert({ name: newItem.name, description: newItem.description, price: newItem.price, hidden: newItem.hidden, category: newItem.category })
+      .select()
+
+    if (error) {
+      console.error('add-menu-item-err:', error);
+      return;
+    }
+
+    // Emit the new item to all connected clients
+    io.emit('menu-item-added', data[0]);
+  });
+
 });
 
 
 
 
 // Start server
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT || 3000, () => console.log(`Server running on port ${PORT || 3000}`));
