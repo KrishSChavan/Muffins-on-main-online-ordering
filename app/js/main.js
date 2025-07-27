@@ -1,3 +1,5 @@
+const socket = io('http://localhost:3000/'); // Initialize socket.io client
+
 let allMenuData = [];
 let menuDataByCategories = {};
 
@@ -99,6 +101,13 @@ function renderMenu(dataGroupedByCategory) {
     title.textContent = category;
     categoryDiv.appendChild(title);
 
+    if (!dataGroupedByCategory[category] || dataGroupedByCategory[category].length === 0) {
+      const noItems = document.createElement('div');
+      noItems.className = 'no-items fade-in';
+      noItems.textContent = 'No menu items found.';
+      container.appendChild(noItems);
+      return;
+    }
 
     dataGroupedByCategory[category].forEach(item => {
       const itemDiv = document.createElement('div');
@@ -136,3 +145,18 @@ function renderMenu(dataGroupedByCategory) {
     container.appendChild(categoryDiv);
   });
 }
+
+
+
+socket.on('menu-item-added', (newItem) => {
+  if (newItem.hidden) return; // Skip rendering if the item is hidden
+
+  allMenuData.push(newItem);
+
+  if (!menuDataByCategories[newItem.category]) {
+    menuDataByCategories[newItem.category] = [];
+  }
+  menuDataByCategories[newItem.category].push(newItem);
+  
+  filterAndRender();
+});
