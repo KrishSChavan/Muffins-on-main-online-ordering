@@ -1,0 +1,78 @@
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 10;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.4);
+  justify-content: center; 
+  align-items: center; 
+}
+
+.modal-content {
+  background: #fff;
+  padding: 32px 28px 18px;
+  border-radius: 12px;
+  max-width: 350px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  margin: auto;
+}
+.close {
+  position: absolute;
+  right: 18px; top: 12px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #888;
+}
+.close:hover {
+  color: #b22222;
+}
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  color: #b22222;
+  text-align: center;
+}
+input, textarea {
+  width: 95%;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 2px;
+  font-size: 1rem;
+  resize: vertical;
+}
+button[type="submit"] {
+  margin-top: 8px;
+  width: 100%;
+  background: #b22222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1.08rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.18s;
+}
+button[type="submit"]:hover {
+  background: #d03030;
+}
+
+
+
+#modal-hidden-toggle-element {
+  display: flex;  
+  flex-direction: row;
+  justify-content: center;
+}
+#modal-hidden-toggle-element input {
+  width: 40px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin: 0;
+}
