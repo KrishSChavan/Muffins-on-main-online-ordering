@@ -118,7 +118,7 @@ function renderMenu(dataGroupedByCategory) {
           </div>
           <div class="hide-toggle">
             <label>
-              <input type="checkbox" class="hide-checkbox">
+              <input type="checkbox" class="hide-checkbox" ${item.hidden ? 'checked' : ''}>
               Hide Item
             </label>
           </div>
@@ -134,3 +134,10 @@ function renderMenu(dataGroupedByCategory) {
     container.appendChild(categoryWrapper);
   });
 }
+
+
+
+createNewItemBtn.addEventListener('click', () => {
+  modal.style.display = 'flex';
+  itemForm.reset(); // Reset form fields
+});
