@@ -228,3 +228,23 @@ socket.on('item-visibility-toggled', (updatedItem) => {
 
   filterAndRender(); // Re-render the menu to reflect changes
 });
+
+
+
+
+socket.on('menu-item-deleted', (deletedItemId) => {
+  allMenuData = allMenuData.filter(item => item.id !== deletedItemId);
+
+  // Remove from menuDataByCategories
+  Object.keys(menuDataByCategories).forEach(category => {
+    menuDataByCategories[category] = menuDataByCategories[category].filter(item => item.id !== deletedItemId);
+  });
+
+  // Remove the item from the DOM
+  const itemDiv = document.getElementById(deletedItemId);
+  if (itemDiv) {
+    itemDiv.remove();
+  }
+
+  filterAndRender(); // Re-render the menu to reflect changes
+});
