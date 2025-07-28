@@ -225,6 +225,24 @@ io.on('connection', (socket) => {
   });
 
 
+
+
+  socket.on('delete-item', async (id) => {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .delete()
+      .eq('id', id)
+      .select()
+
+    if (error) {
+      console.error('delete-menu-item-err:', error);
+      return;
+    }
+
+    // Emit the deleted item to all connected clients
+    io.emit('menu-item-deleted', id);
+  });
+
 });
 
 
