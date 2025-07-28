@@ -200,3 +200,31 @@ socket.on('menu-item-updated', (updatedItem) => {
 
   filterAndRender();
 });
+
+
+
+
+
+socket.on('item-visibility-toggled', (updatedItem) => {
+  const item = allMenuData.find(item => item.id === updatedItem.id);
+
+  if (item) {
+    item.hidden = !item.hidden; // Toggle visibility
+
+    // Update the menuDataByCategories variable
+    if (menuDataByCategories[item.category]) {
+      const index = menuDataByCategories[item.category].findIndex(i => i.id === item.id);
+      if (index !== -1) {
+        menuDataByCategories[item.category][index].hidden = item.hidden; // Update the hidden status in the category array
+      }
+    }
+  } else {
+    allMenuData.push(updatedItem);
+    if (!menuDataByCategories[updatedItem.category]) {
+      menuDataByCategories[updatedItem.category] = [];
+    }
+    menuDataByCategories[updatedItem.category].push(updatedItem);
+  }
+
+  filterAndRender(); // Re-render the menu to reflect changes
+});
