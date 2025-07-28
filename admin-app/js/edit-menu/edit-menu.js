@@ -111,6 +111,7 @@ function renderMenu(dataGroupedByCategory) {
       const itemHtml = `
         <div class="menu-item" id="${item.id}">
           <div class="item-info">
+            <p>ID: ${item.id}</p>
             <h2>${item.name}</h2>
             <p>Category: <span class="category">${category}</span></p>
             <p>Price: $<span class="price">${item.price}</span></p>
