@@ -110,8 +110,12 @@ function renderMenu(dataGroupedByCategory) {
     }
 
     dataGroupedByCategory[category].forEach(item => {
+
+      if (item.hidden) return; // Skip hidden items
+
       const itemDiv = document.createElement('div');
       itemDiv.className = 'menu-item';
+      itemDiv.id = item.id; // Set ID for easy updates
 
       const name = document.createElement('div');
       name.className = 'menu-item-name';
@@ -158,5 +162,41 @@ socket.on('menu-item-added', (newItem) => {
   }
   menuDataByCategories[newItem.category].push(newItem);
   
+  filterAndRender();
+});
+
+
+socket.on('menu-item-updated', (updatedItem) => {
+  const index = allMenuData.findIndex(item => item.id === updatedItem.id);
+  let oldCategory = null;
+  if (index !== -1) {
+    oldCategory = allMenuData[index].category; // Save old category
+    allMenuData[index] = updatedItem;          // Update the item
+  }
+
+  // Ensure the new category array exists
+  if (!menuDataByCategories[updatedItem.category]) {
+    menuDataByCategories[updatedItem.category] = [];
+  }
+
+  // Remove from old category if changed
+  if (oldCategory && oldCategory !== updatedItem.category) {
+    const oldIndex = menuDataByCategories[oldCategory].findIndex(item => item.id === updatedItem.id);
+    if (oldIndex !== -1) {
+      menuDataByCategories[oldCategory].splice(oldIndex, 1);
+    }
+  }
+
+  // Remove any existing in the new/current category to prevent duplicates
+  const existingIndex = menuDataByCategories[updatedItem.category].findIndex(item => item.id === updatedItem.id);
+  if (existingIndex !== -1) {
+    menuDataByCategories[updatedItem.category].splice(existingIndex, 1);
+  }
+
+  // Now push the updated item once!
+  menuDataByCategories[updatedItem.category].push(updatedItem);
+
+  document.getElementById(updatedItem.id).remove(); // Remove the old item from the DOM
+
   filterAndRender();
 });
