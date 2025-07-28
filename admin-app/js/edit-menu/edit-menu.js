@@ -109,7 +109,7 @@ function renderMenu(dataGroupedByCategory) {
 
     dataGroupedByCategory[category].forEach(item => {
       const itemHtml = `
-        <div class="menu-item">
+        <div class="menu-item" id="${item.id}">
           <div class="item-info">
             <h2>${item.name}</h2>
             <p>Category: <span class="category">${category}</span></p>
