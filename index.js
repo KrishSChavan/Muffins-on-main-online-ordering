@@ -205,6 +205,26 @@ io.on('connection', (socket) => {
     io.emit('menu-item-updated', data[0]);
   });
 
+
+
+
+  socket.on('toggle-item-visibility', async (id, hidden) => {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .update({ hidden: hidden })
+      .eq('id', id)
+      .select()
+
+    if (error) {
+      console.error('toggle-item-visibility-err:', error);
+      return;
+    }
+
+    // Emit the visibility change to all connected clients
+    io.emit('item-visibility-toggled', data[0]);
+  });
+
+
 });
 
 
