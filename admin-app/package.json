@@ -15,7 +15,7 @@
     "forceCodeSigning": false,
     "win": {
       "target": "nsis",
-      "icon": "/whop_admin_icon.ico"
+      "icon": "/MoM-admin-logo.ico"
     }
   },
   "scripts": {
