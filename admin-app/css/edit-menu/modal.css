@@ -76,3 +76,36 @@ button[type="submit"]:hover {
   font-size: 1rem;
   margin: 0;
 }
+
+
+
+
+
+.modal-content .bottom-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.modal-content .bottom-buttons button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+.modal-content .bottom-buttons button.save {
+  background-color: #28a745;
+  color: white;
+}
+.modal-content .bottom-buttons button.save:hover {
+  background-color: #218838;
+}
+
+.modal-content .bottom-buttons button.cancel:hover {
+  background-color: #dddddd;
+}
