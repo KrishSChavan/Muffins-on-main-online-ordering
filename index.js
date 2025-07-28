@@ -186,6 +186,25 @@ io.on('connection', (socket) => {
     io.emit('menu-item-added', data[0]);
   });
 
+
+
+
+  socket.on('update-menu-item', async (updatedItem) => {
+    const { data, error } = await supabase
+      .from('menu_items')
+      .update({ name: updatedItem.name, description: updatedItem.description, price: updatedItem.price, hidden: updatedItem.hidden, category: updatedItem.category })
+      .eq('id', updatedItem.id)
+      .select()
+
+    if (error) {
+      console.error('update-menu-item-err:', error);
+      return;
+    }
+
+    // Emit the updated item to all connected clients
+    io.emit('menu-item-updated', data[0]);
+  });
+
 });
 
 
