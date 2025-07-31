@@ -48,7 +48,7 @@ window.onclick = function(event) {
 };
 
 function addToOrder(item) {
-  let itemText = `${item.name}`;
+  let itemText = `${item.name} (${item.category})`;
   let priceText = item.price;
 
   const order = {
