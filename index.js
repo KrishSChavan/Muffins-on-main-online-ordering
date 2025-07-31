@@ -81,6 +81,7 @@ app.post('/api/orders', async (req, res) => {
       console.error('Insert error:', error);
       res.status(500).json({ error: 'There was a problem saving your order.' });
     } else {
+      updateLogs(`ORDER_RECEIVED`, `Order received from ${name} (${phone}) for pickup on ${pickup_date} at ${pickup_time}. Items: ${JSON.stringify(items)}`);
       console.log('Inserted order:', data);
       res.status(201).json({ message: 'Order received and SMS sent.' });
       io.emit('new-order', data[0]);
@@ -129,8 +130,19 @@ app.get('/api/menu', async (req, res) => {
 
 
 
+async function updateLogs(for_, msg) {
+  const { data, error } = await supabase
+    .from('logs')
+    .insert({ for: for_, message: msg })
+}
+
+
+
+
 io.on('connection', (socket) => {
   console.log("connection: ", socket.id);
+  
+  updateLogs(`CONNECTION`, `New connection: ${socket.id}`);
 
   socket.on('get-order-data', async () => {
     const { data, error } = await supabase
@@ -155,6 +167,8 @@ io.on('connection', (socket) => {
       console.error('order-complete-err:', error);
       return;
     }
+
+    updateLogs(`ORDER_COMPLETE`, `Order ${orderId} completed for ${name}`);
 
     const messageBody = `Hi ${name}, your order is complete! Please come pick it up.`;
 
