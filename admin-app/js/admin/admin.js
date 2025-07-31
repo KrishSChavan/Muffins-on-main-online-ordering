@@ -237,7 +237,6 @@ function addOrder(order) {
           ${order.client_order.map(item => `
             <div class="item-line">
               <div>${item.quantity || 1}x ${item.item}</div>
-              ${item.toppings.length ? `<div class="toppings">+ ${item.toppings.join(', ')}</div>` : ''}
             </div>
           `).join('')}
 
