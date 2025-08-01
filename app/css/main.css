@@ -19,6 +19,15 @@ h1 {
   color: #2c3e50;
 }
 
+
+#disclaimer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin: 20px 0;
+}
+
+
 .menu-container {
   display: flex;
   flex-direction: column;
