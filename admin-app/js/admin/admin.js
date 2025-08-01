@@ -1,14 +1,32 @@
 const socket = io('http://localhost:3000/');
 
 const ordersContainer = document.getElementById('ordersContainer');
+const ding = document.getElementById('ding-sound');
+
+
+// function to play the ding, but only if it's not already playing
+function playDing() {
+  // if the sound is currently playing, do nothing
+  if (!ding.paused && !ding.ended) return;
+
+  // rewind to start (in case it ended)
+  ding.currentTime = 0;
+  ding.play().catch(err => {
+    // handle play() errors (e.g. user hasn’t interacted with page yet)
+    console.warn('Could not play ding:', err);
+  });
+}
+
+
 
 window.addEventListener('load', () => {
   socket.emit('get-order-data');
 });
 
 socket.on('new-order', (order) => {
-  console.log('New order received:', order);
+  // console.log('New order received:', order);
   addOrder(order);
+  playDing();
 });
 
 socket.on('load-order-data', (orderData) => {
