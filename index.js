@@ -17,20 +17,30 @@ const PORT = process.env.PORT || 3000;
 
 
 
+const basicAuth = require('express-basic-auth');
+
+
+
 // Middleware
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'app'))); // Serve static files from /app
+//app.use(express.static(path.join(__dirname, 'app'))); // Serve static files from /app
+app.use('/', express.static(path.join(__dirname, 'app')));
+app.use('/admin', express.static(path.join(__dirname, 'edit-menu-app')));
 
 // Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
 });
 
+app.use('/admin', basicAuth({
+  users: { 'admin': '1234' },
+  challenge: true
+}));
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'app', 'admin.html'));
+  res.sendFile(path.join(__dirname, 'edit-menu-app', 'edit-menu.html'));
 });
 
 app.post('/api/orders', async (req, res) => {
