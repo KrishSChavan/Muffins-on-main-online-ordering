@@ -35,10 +35,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
 });
 
-const USERNAME = process.env.ADMIN_USERNAME;
-const PASSWORD = process.env.ADMIN_PASSWORD;
 app.use('/admin', basicAuth({
-  users: { USERNAME: PASSWORD },
+  users: { 'admin': '1234' },
   challenge: true
 }));
 app.get('/admin', (req, res) => {
