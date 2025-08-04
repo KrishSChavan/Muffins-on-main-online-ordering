@@ -1,4 +1,4 @@
-const socket = io('https://mom-online-orders-f4e6b53a9f03.herokuapp.com/'); // Initialize socket.io client
+const socket = io(`${window.location.origin}/`); // Initialize socket.io client
 
 let allMenuData = [];
 let menuDataByCategories = {};
