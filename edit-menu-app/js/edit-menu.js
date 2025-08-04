@@ -7,7 +7,7 @@ const createNewItemBtn = document.getElementById('create-new-item');
 let allMenuData = [];
 let menuDataByCategories = {};
 
-axios.get('https://mom-online-orders-f4e6b53a9f03.herokuapp.com/api/menu')
+axios.get(`${window.location.origin}/api/menu`)
   .then(response => {
 
     allMenuData = response.data.data || [];
