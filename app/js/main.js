@@ -1,4 +1,4 @@
-const socket = io('http://localhost:3000/'); // Initialize socket.io client
+const socket = io('https://mom-online-orders-f4e6b53a9f03.herokuapp.com/'); // Initialize socket.io client
 
 let allMenuData = [];
 let menuDataByCategories = {};
