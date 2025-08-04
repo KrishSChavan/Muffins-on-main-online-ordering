@@ -35,8 +35,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
 });
 
+const USERNAME = process.env.ADMIN_USERNAME;
+const PASSWORD = process.env.ADMIN_PASSWORD;
 app.use('/admin', basicAuth({
-  users: { 'admin': '1234' },
+  users: { USERNAME: PASSWORD },
   challenge: true
 }));
 app.get('/admin', (req, res) => {
@@ -273,4 +275,6 @@ io.on('connection', (socket) => {
 
 
 // Start server
-server.listen(PORT || 3000, () => console.log(`Server running on port ${PORT || 3000}`));
+server.listen(PORT || 3000, () => {
+  console.log(`Server running on port ${PORT || 3000}`)
+});
