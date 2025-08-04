@@ -111,11 +111,11 @@ function renderMenu(dataGroupedByCategory) {
       const itemHtml = `
         <div class="menu-item" id="${item.id}">
           <div class="item-info">
-            <p>ID: ${item.id}</p>
+            <p id="item-id">ID: ${item.id}</p>
             <h2>${item.name}</h2>
             <p>Category: <span class="category">${category}</span></p>
             <p>Price: $<span class="price">${item.price}</span></p>
-            <p>Description: <span class="description">${item.description}</span></p>
+            <p id="desc">Description: <span class="description">${item.description}</span></p>
           </div>
           <div class="hide-toggle">
             <label>
