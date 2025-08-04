@@ -120,15 +120,18 @@ h1 button {
   color: #5a5a5a;
   max-width: 300px;
 }
+.item-info p#item-id {
+  font-size: 0.85rem;
+  color: #888;
+  max-width: none;
+}
+
 
 .category, .price {
   font-weight: 500;
   color: #b22222;
 }
 
-.description {
-  color: #555;
-}
 
 .hide-toggle {
   flex: 0 0 auto;
@@ -196,12 +199,24 @@ h1 button {
 @media (max-width: 650px) {
   .menu-item {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    align-items: center;
+    gap: 30px;
     padding: 16px;
   }
   .item-info {
     width: 100%;
     justify-content: flex-end;
+  }
+  .item-info p#desc {
+    max-width: none;
+  }
+  .item-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .item-actions .edit-btn, .item-actions .delete-btn {
+    width: 100%;
   }
 }
