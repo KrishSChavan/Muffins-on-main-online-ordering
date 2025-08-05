@@ -94,6 +94,10 @@
 #submit_order:hover {
   background-color: #27ae60;
 }
+#submit_order:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
 
 #back-to-items-list {
   aspect-ratio: 1 / 1;
