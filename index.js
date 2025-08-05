@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
 });
 
+
 app.use('/admin', basicAuth({
   users: { 'admin': '1234' },
   challenge: true
