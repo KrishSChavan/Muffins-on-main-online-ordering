@@ -153,7 +153,7 @@ async function updateLogs(for_, msg) {
 io.on('connection', (socket) => {
   console.log("connection: ", socket.id);
   
-  updateLogs(`CONNECTION`, `New connection: ${socket.id}`);
+  // updateLogs(`CONNECTION`, `New connection: ${socket.id}`);
 
   socket.on('get-order-data', async () => {
     const { data, error } = await supabase
