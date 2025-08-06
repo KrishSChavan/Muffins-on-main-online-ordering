@@ -45,20 +45,20 @@ backToItemsList.addEventListener('click', () => {
 
 
 
-const termsOfServiceLink = document.getElementById('terms-of-service');
-const privacyPolicyLink = document.getElementById('privacy-policy');
-const acceptTermsCheckbox = document.getElementById('accept-terms-and-conditions');
+// const termsOfServiceLink = document.getElementById('terms-of-service');
+// const privacyPolicyLink = document.getElementById('privacy-policy');
+// const acceptTermsCheckbox = document.getElementById('accept-terms-and-conditions');
 
-termsOfServiceLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  window.open(`${window.location.origin}/terms-of-service.html`, '_blank');
-});
-privacyPolicyLink.addEventListener('click', (e) => {  
-  e.preventDefault();
-  window.open(`${window.location.origin}/privacy-policy.html`, '_blank');
-});
+// termsOfServiceLink.addEventListener('click', (e) => {
+//   e.preventDefault();
+//   window.open(`${window.location.origin}/terms-of-service.html`, '_blank');
+// });
+// privacyPolicyLink.addEventListener('click', (e) => {  
+//   e.preventDefault();
+//   window.open(`${window.location.origin}/privacy-policy.html`, '_blank');
+// });
 
-acceptTermsCheckbox.addEventListener('change', () => {
-  submitOrderBtn.disabled = !acceptTermsCheckbox.checked;
-});
-submitOrderBtn.disabled = !acceptTermsCheckbox.checked; // Disable initially if not checked
+// acceptTermsCheckbox.addEventListener('change', () => {
+//   submitOrderBtn.disabled = !acceptTermsCheckbox.checked;
+// });
+// submitOrderBtn.disabled = !acceptTermsCheckbox.checked; // Disable initially if not checked
