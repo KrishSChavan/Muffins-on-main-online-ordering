@@ -165,6 +165,18 @@ async function submitOrder(orderData) {
   try {
     const response = await axios.post('/api/orders', orderData);
 
+    const permission = await Notification.requestPermission();
+    if (permission === 'denied') {
+      alert("You’ve previously blocked notifications. To fix this, please go to iPhone Settings > Safari > Advanced > Website Data, search 'ordermuffinsonmain.com', and delete it. Then re-add the app from Safari.");
+    }
+    const reg = await navigator.serviceWorker.register('/sw.js');
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: 'BPk5VX60JVmOmpdOXCe1JQD6rHQYlgbngjLPk355nAxVLcMS0hjDOprFc4e9xXFvcu_Gy3eJs20mmOvlrEHCH5A'
+    });
+
+    socket.emit('save-subscription', orderData.client_name, sub);
+
     if (response.status === 201 || response.status === 200) {
       console.log('Order submitted:', response.data);
       showCustomAlert('Your order has been placed successfully!', 'success');
