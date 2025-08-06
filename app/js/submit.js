@@ -191,7 +191,7 @@ async function submitOrder(orderData) {
       showCustomAlert(`Server error: ${error.response.data.message || 'Unable to submit order.'}`, 'error');
     } else {
       console.error('Network error:', error.message);
-      showCustomAlert('Network error. Please check your internet connection.', 'error');
+      showCustomAlert('Network error. Please check your internet connection.' + error.message, 'error');
       alert(error.message);
     }
   }
