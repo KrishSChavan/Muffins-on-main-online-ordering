@@ -6,13 +6,24 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const twilio = require('twilio');
 const { createClient } = require('@supabase/supabase-js');
+const webpush = require('web-push');
 require('dotenv').config();
 
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 
-const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+webpush.setVapidDetails(
+  `mailto:${process.env.PERSONAL_EMAIL}`,
+  process.env.VAPID_PUBLIC_KEY,
+  process.env.VAPID_PRIVATE_KEY
+);
+
+const users = {};         // { name: socketId }
+const subscriptions = {}; // { name: PushSubscription }
+
+
+// const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 const PORT = process.env.PORT || 3000;
 
 
@@ -64,14 +75,15 @@ app.post('/api/orders', async (req, res) => {
   const orderSummary = items.map(i => `• ${i.item} - ${i.price}`).join('\n');
   const messageBody = `Hi ${name}, your order has been received:\n\n${orderSummary}\n\nTotal: ${final_total}`;
 
-  console.log('Received order:', { name, phone, items, subtotal, tax, final_total });
+  // console.log('Received order:', { name, phone, items, subtotal, tax, final_total });
 
   try {
-    await client.messages.create({
-      body: messageBody,
-      from: process.env.TWILIO_PHONE,
-      to: phone,
-    });
+    // await client.messages.create({
+    //   body: messageBody,
+    //   from: process.env.TWILIO_PHONE,
+    //   to: phone,
+    // });
+
 
     const { data, error } = await supabase
       .from('orders')
@@ -96,6 +108,9 @@ app.post('/api/orders', async (req, res) => {
       console.log('Inserted order:', data);
       res.status(201).json({ message: 'Order received and SMS sent.' });
       io.emit('new-order', data[0]);
+      console.log(`registered ${name}`);
+      users[name] = data[0].id;
+      console.log(data[0].id);
     }
 
   } catch (err) {
@@ -168,7 +183,7 @@ io.on('connection', (socket) => {
     socket.emit('load-order-data', data);
   });
 
-  socket.on('order-complete', async (orderId, name, phone) => {
+  socket.on('order-complete', async (orderId, name) => {
     const { data, error } = await supabase
       .from('orders')
       .update({ complete: true })
@@ -180,18 +195,6 @@ io.on('connection', (socket) => {
     }
 
     updateLogs(`ORDER_COMPLETE`, `Order ${orderId} completed for ${name}`);
-
-    const messageBody = `Hi ${name}, your order is complete! Please come pick it up.`;
-
-    try {
-      await client.messages.create({
-        body: messageBody,
-        from: process.env.TWILIO_PHONE,
-        to: phone,
-      });
-    } catch (err) {
-      console.error('SMS error:', err);
-    }
   });
 
 
@@ -267,6 +270,51 @@ io.on('connection', (socket) => {
     // Emit the deleted item to all connected clients
     io.emit('menu-item-deleted', id);
   });
+
+
+
+
+
+
+
+  // Handle push subscription saving
+
+  socket.on('save-subscription', (name, subscription) => {
+    console.log(`subscription for ${name} saved`);
+    subscriptions[name.toLowerCase()] = subscription;
+  });
+
+
+  socket.on('send-notification', (orderId, clientName) => {
+
+
+    const title = `Your order is ready!`;
+    const message = `Hi ${clientName}, your order is ready for pickup.`;
+
+
+    console.log(`trying to send to ${clientName} | ${title} --> ${message}`);
+
+    const subscription = subscriptions[clientName.toLowerCase()];
+    sendPing(subscription, clientName.toLowerCase(), title, message, orderId);
+  });
+
+
+
+  async function sendPing(subscription, to, title, message, orderId) {
+    if (subscription) {
+      const payload = JSON.stringify({
+        title: title,
+        body: message
+      });
+      webpush.sendNotification(subscription, payload).catch(console.error);
+      console.log(`Noti sent to ${to}`);
+      socket.emit('registered-and-sent', orderId, to);
+    } else {
+      socket.emit('not-registered-for-notis', to);
+    }
+  }
+
+
 
 });
 
