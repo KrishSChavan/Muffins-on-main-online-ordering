@@ -192,6 +192,7 @@ async function submitOrder(orderData) {
     } else {
       console.error('Network error:', error.message);
       showCustomAlert('Network error. Please check your internet connection.', 'error');
+      alert(error.message);
     }
   }
 }
