@@ -1,4 +1,4 @@
-const socket = io(`${window.location.origin}/`); // Initialize socket.io client
+const socket = io(); // Initialize socket.io client
 
 let allMenuData = [];
 let menuDataByCategories = {};
