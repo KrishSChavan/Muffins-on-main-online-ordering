@@ -1,0 +1,115 @@
+.order_drawer_content {
+  display: flex;
+  width: 200%; /* Since we have 2 slides */
+  transition: transform 0.3s ease-in-out;
+  gap: 20px;
+}
+
+
+.cart_window {
+  width: 320px; /* Same as container */
+  flex-shrink: 0;
+  height: 93vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+#go-to-order-details {
+  background-color: #00BCD4;
+  color: white;
+  font-weight: 700;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+#go-to-order-details:disabled {
+  background-color: powderblue;
+  cursor: not-allowed;
+}
+#go-to-order-details:not(:disabled):hover {
+  background-color: #00a2b8;
+}
+
+
+
+#order-details {
+  display: flex;
+  flex-direction: column;
+  justify-content:space-evenly;
+  height: 93%;
+}
+
+.client-info {
+  display: flex;
+  flex-direction: column;
+  /* gap: 20px; */
+  height: 50%;
+  justify-content: space-evenly;
+}
+.client-info div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+.client-info div input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1.25px solid;
+  height: 30px;
+}
+.client-info div input::placeholder {
+  font-style: italic;
+  opacity: 0.7;
+}
+.client-info div label {
+  text-align: center;
+}
+
+
+#order-details .bottom_btns {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+
+#submit_order {
+  background-color: #2ecc71;
+  width: 80%;
+  color: white;
+  font-weight: 700;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+#submit_order:hover {
+  background-color: #27ae60;
+}
+#submit_order:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+#back-to-items-list {
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  background-color: gray;
+  border: none;
+  font-size: 1rem;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#back-to-items-list:hover {
+  background-color: #6c6a6a;
+}

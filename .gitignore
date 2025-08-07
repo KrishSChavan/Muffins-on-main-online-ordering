@@ -1,0 +1,18 @@
+node_modules/
+
+# Playwright
+scrapeMenu.js
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+playwright.config.js
+menu.json
+
+.env
+
+
+preload.js
+
+
+admin-app/

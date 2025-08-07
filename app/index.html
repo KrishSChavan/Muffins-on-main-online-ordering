@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fullscreen/app mode for iOS -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Muffins on Main">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- App icon for iOS (must be 180x180 PNG) -->
+  <link rel="apple-touch-icon" href="./images/MoM-icon.png">
+
+  <title>Order Online | Muffins on Main</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+  <script defer src="./js/main.js"></script>
+  <script defer src="./js/modal.js"></script>
+  <script defer src="./js/cart.js"></script>
+  <script defer src="./js/cart-scroll.js"></script>
+  <script defer src="./js/submit.js"></script>
+  <script defer src="./js/download-steps.js"></script>
+
+  <link rel="stylesheet" href="./css/logo.css" />
+  <link rel="stylesheet" href="./css/navbar.css" />
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/modal.css" />
+  <link rel="stylesheet" href="./css/download-steps.css" />
+  <link rel="stylesheet" href="./css/footer.css" />
+  <link rel="stylesheet" href="./css/cart.css" />
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="./images/MoM-logo-address.JPG" type="image/png">
+
+</head>
+<body>
+
+  <div class="menu-wrapper" id="menuWrapper">
+
+    <header class="navbar">
+      <div class="logo-container">
+        <img src="./images/MoM-logo-white-red.png" alt="Muffins on Main Logo" class="logo-img" />
+      </div>
+      <div class="input-field-container">
+        <select id="categorySelect">
+          <option value="all">All Categories</option>
+        </select>
+        <input type="text" id="searchInput" autocomplete="off" placeholder="Search items...">
+        <button id="viewOrderBtn">
+          🛒 View Order
+          <span id="cartCount">0</span>
+        </button>
+      </div>
+    </header>
+    
+    <div id="orderDrawer">
+      <div class="order_drawer_top">
+        <h2>Your Order</h2>
+        <button id="closeDrawer">Close</button>
+      </div>
+
+      <div class="order_drawer_content">
+        <div id="cart-items" class="cart_window">
+          <div class="orderListContainer">
+            <div class="top-shadow"></div>
+
+            <div id="orderListWrapper">
+              <ul id="orderList"></ul>
+            </div>
+
+            <div class="bottom-shadow"></div>
+          </div>
+
+          <div class="cart_bottom">
+            <div id="cartTotalContainer">
+              <div class="total_wrapper">
+                <p>Subtotal:<span id="subtotal">$0.00</span></p>
+                <p>Tax (6.25%):<span id="tax">$0.00</span></p>
+                <strong><p>Total:<span id="total">$0.00</span></p></strong>
+              </div>
+            </div>
+            <button id="go-to-order-details" disabled>Go to order details &rarr;</button>
+          </div>
+        </div>
+
+        <div id="order-details" class=cart_window>
+          <div class="client-info">
+            <div>
+              <label for="client-name">Name for order:</label>
+              <input id="client-name" type="text" placeholder="John Doe" />
+            </div>
+            <div>
+              <label for="client-phone-number">Number for alerts:</label>
+              <input id="client-phone-number" type="tel" placeholder="Phone Number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" />
+            </div>
+            <div>
+              <label for="pickup-date">Pickup Date:</label>
+              <input id="pickup-date" type="date" />
+            </div>
+            <div>
+              <label for="pickup-time">Pickup Time:</label>
+              <input id="pickup-time" type="time" />
+            </div>
+          </div>
+          <!-- <p><input type="checkbox" id="accept-terms-and-conditions"> I accept the <span id="terms-of-service" class="link">Terms of Service</span> and <span id="privacy-policy" class="link">Privacy Policy</span></p> -->
+          <div class="bottom_btns">
+            <button id="back-to-items-list">&larr;</button>
+            <button id="submit_order">Submit Order</button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+
+    <p id="disclaimer">DISCLAIMER: Not all items are listed online some are only available for purchase in store</p>
+
+    <div class="menu-container" id="menuContainer"></div>
+
+    <div id="addToOrderModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close" id="closeModalBtn">&times;</span>
+        <div id="modalItemInfo"></div>
+        <div id="modalPriceButtons"></div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h2 class="footer-logo">Muffins on Main</h2>
+          <p class="footer-description">Order your favorite muffins & treats online, fresh every day.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="https://muffinsonmain.com/">Menu</a></li>
+            <li><a href="https://muffinsonmain.com/our-story">About Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact</h3>
+          <p>40 Main St, Westford, MA</p>
+          <p><a href="tel:+1978-788-4365">978-788-4365</a></p>
+          <p><a href="mailto:info@muffinsonmain.com">info@muffinsonmain.com</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Muffins on Main. All rights reserved. | Powered by Krish Chavan</p>
+        <div class="footer-socials">
+          <a href="#" title="Instagram"><img src="instagram.svg" alt="Instagram" /></a>
+          <a href="#" title="Facebook"><img src="facebook.svg" alt="Facebook" /></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+
+  <div id="cartAlert">Item added to cart ✅</div>
+
+
+
+
+
+  <div id="MoM-pwa-popup">
+    <div class="MoM-pwa-card">
+      <!-- <img src="/icon-180.png" alt="WHOP App Icon" class="whop-pwa-icon" /> -->
+      <div class="MoM-pwa-title">Add MoM Online Orders to your Home Screen!</div>
+      <div class="MoM-pwa-message">
+        For the best ordering experience and instant reordering, install this app:
+        <ul>
+          <li>Tap <b>Share</b> <span style="font-size:1.15em;">&#x1f4e4;</span> at the bottom of Safari</li>
+          <li>Select <b>Add to Home Screen</b></li>
+          <li>Open the MoM app from your Home Screen!</li>
+        </ul>
+      </div>
+      <button id="MoM-pwa-close">Got it</button>
+    </div>
+  </div>  
+
+
+</body>
+</html>
