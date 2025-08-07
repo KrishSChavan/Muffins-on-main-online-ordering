@@ -35,7 +35,21 @@ const basicAuth = require('express-basic-auth');
 // Middleware
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+// const io = new Server(server);
+
+
+const io = new Server(server, {
+  cors: {
+    origin: process.env.NODE_ENV === 'production' 
+      ? ["https://ordermuffinsonmain.com"]
+      : ["http://localhost:3000", "http://localhost:5000"],
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  transports: ['polling', 'websocket']
+});
+
+
 app.use(bodyParser.json());
 //app.use(express.static(path.join(__dirname, 'app'))); // Serve static files from /app
 app.use('/', express.static(path.join(__dirname, 'app')));
