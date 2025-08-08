@@ -19,7 +19,7 @@ webpush.setVapidDetails(
   process.env.VAPID_PRIVATE_KEY
 );
 
-const users = {};         // { name: socketId }
+const activeOrders = {};         // { name: socketId }
 const subscriptions = {}; // { name: PushSubscription }
 
 
@@ -35,7 +35,19 @@ const basicAuth = require('express-basic-auth');
 // Middleware
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+// const io = new Server(server);
+
+const io = new Server(server, {
+  cors: {
+    origin: process.env.NODE_ENV === 'production' 
+      ? ["https://ordermuffinsonmain.com"]
+      : ["http://localhost:3000", "http://localhost:5000"],
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  transports: ['polling', 'websocket']
+});
+
 app.use(bodyParser.json());
 //app.use(express.static(path.join(__dirname, 'app'))); // Serve static files from /app
 app.use('/', express.static(path.join(__dirname, 'app')));
@@ -45,7 +57,6 @@ app.use('/admin', express.static(path.join(__dirname, 'edit-menu-app')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
 });
-
 
 app.use('/admin', basicAuth({
   users: { 'admin': '1234' },
@@ -58,6 +69,7 @@ app.get('/admin', (req, res) => {
 app.post('/api/orders', async (req, res) => {
   const order = req.body;
 
+  const orderNum = req.body.client_order_num;
   const name = req.body.client_name;
   const phone = req.body.client_phone_number;
   const pickup_date = req.body.client_order_pickup.split('T')[0];
@@ -68,7 +80,7 @@ app.post('/api/orders', async (req, res) => {
   const final_total = req.body.client_final_total;
 
   // Basic validation
-  if (!name || !phone || !pickup_date || !pickup_time || !items || items.length === 0 || !subtotal || !tax || !final_total || subtotal == 0 || tax == 0 || final_total == 0) {
+  if (!orderNum || !name || !phone || !pickup_date || !pickup_time || !items || items.length === 0 || !subtotal || !tax || !final_total || subtotal == 0 || tax == 0 || final_total == 0) {
     return res.status(400).json({ error: 'Invalid order data.' });
   }
 
@@ -89,6 +101,7 @@ app.post('/api/orders', async (req, res) => {
       .from('orders')
       .insert([
         {
+          client_order_num: orderNum,
           client_name: name,
           client_phone_number: phone,
           client_order_pickup: `${pickup_date}T${pickup_time}:00`,
@@ -109,7 +122,7 @@ app.post('/api/orders', async (req, res) => {
       res.status(201).json({ message: 'Order received and SMS sent.' });
       io.emit('new-order', data[0]);
       console.log(`registered ${name}`);
-      users[name] = data[0].id;
+      activeOrders[orderNum] = data[0].id;
       console.log(data[0].id);
     }
 
@@ -279,28 +292,28 @@ io.on('connection', (socket) => {
 
   // Handle push subscription saving
 
-  socket.on('save-subscription', (name, subscription) => {
+  socket.on('save-subscription', (name, subscription, orderNum) => {
     console.log(`subscription for ${name} saved`);
-    subscriptions[name.toLowerCase()] = subscription;
+    subscriptions[orderNum] = subscription;
   });
 
 
-  socket.on('send-notification', (orderId, clientName) => {
+  socket.on('send-notification', (orderId, clientName, orderNum) => {
 
 
     const title = `Your order is ready!`;
-    const message = `Hi ${clientName}, your order is ready for pickup.`;
+    const message = `Hi ${clientName}, order #${orderNum} is ready for pickup.`;
 
 
     console.log(`trying to send to ${clientName} | ${title} --> ${message}`);
 
-    const subscription = subscriptions[clientName.toLowerCase()];
-    sendPing(subscription, clientName.toLowerCase(), title, message, orderId);
+    const subscription = subscriptions[orderNum];
+    sendPing(subscription, clientName.toLowerCase(), title, message, orderId, orderNum);
   });
 
 
 
-  async function sendPing(subscription, to, title, message, orderId) {
+  async function sendPing(subscription, to, title, message, orderId, orderNum) {
     if (subscription) {
       const payload = JSON.stringify({
         title: title,
@@ -309,6 +322,14 @@ io.on('connection', (socket) => {
       webpush.sendNotification(subscription, payload).catch(console.error);
       console.log(`Noti sent to ${to}`);
       socket.emit('registered-and-sent', orderId, to);
+
+      // remove from activeOrders and subscriptions
+      delete activeOrders[orderNum];
+      delete subscriptions[orderNum];
+
+      console.log(activeOrders);
+      console.log(subscriptions);
+
     } else {
       socket.emit('not-registered-for-notis', to);
     }

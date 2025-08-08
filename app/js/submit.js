@@ -128,6 +128,7 @@ submit_order_btn.addEventListener('click', () => {
 
 
   let orderData = {
+    client_order_num: generateOrderNum(),
     client_name: client_name,
     client_phone_number: client_phone_number,
     client_order_pickup: `${pickup_date}T${pickup_time}:00`,
@@ -167,15 +168,33 @@ async function submitOrder(orderData) {
 
     const permission = await Notification.requestPermission();
     if (permission === 'denied') {
-      alert("You’ve previously blocked notifications. To fix this, please go to iPhone Settings > Safari > Advanced > Website Data, search 'ordermuffinsonmain.com', and delete it. Then re-add the app from Safari.");
+      alert("You've previously blocked notifications. To fix this, please go to iPhone Settings > Safari > Advanced > Website Data, search 'ordermuffinsonmain.com', and delete it. Then re-add the app from Safari.");
+      return; // Exit early if permission denied
     }
-    const reg = await navigator.serviceWorker.register('/sw.js');
+
+    // Use existing service worker registration
+    console.log('Getting service worker registration...');
+    const reg = await navigator.serviceWorker.ready;
+    console.log('Service Worker is ready:', reg);
+
+    // Check if service worker is active
+    if (reg.active) {
+      console.log('Service Worker is active');
+    } else {
+      console.log('Service Worker is not active yet');
+      // Wait a bit more for activation
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    // Now try to subscribe
+    console.log('Creating push subscription...');
     const sub = await reg.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: 'BPk5VX60JVmOmpdOXCe1JQD6rHQYlgbngjLPk355nAxVLcMS0hjDOprFc4e9xXFvcu_Gy3eJs20mmOvlrEHCH5A'
     });
+    console.log('Push subscription created:', sub);
 
-    socket.emit('save-subscription', orderData.client_name, sub);
+    socket.emit('save-subscription', orderData.client_name, sub, orderData.client_order_num);
 
     if (response.status === 201 || response.status === 200) {
       console.log('Order submitted:', response.data);
@@ -198,7 +217,33 @@ async function submitOrder(orderData) {
       showCustomAlert('Something went wrong. Please try again.', 'warning');
     }
   } catch (error) {
-    if (error.response) {
+    console.error('Service Worker or Push subscription error:', error);
+    
+    if (error.name === 'NotAllowedError') {
+      showCustomAlert('Notification permission denied. Please allow notifications and try again.', 'error');
+    } else if (error.message.includes('no active Service Worker')) {
+      showCustomAlert('Service Worker not ready. Please refresh the page and try again.', 'error');
+    } else {
+      showCustomAlert('Failed to set up notifications. Please try again.', 'error');
+    }
+    
+    // Continue with order submission even if notifications fail
+    if (response && (response.status === 201 || response.status === 200)) {
+      console.log('Order submitted:', response.data);
+      showCustomAlert('Your order has been placed successfully!', 'success');
+
+      drawer_content.style.transform = 'translateX(0)';
+      document.getElementById('orderDrawer').classList.remove('open');
+
+      cart = [];
+      renderCart();
+      updateCartCount()
+      client_name_input.value = "";
+      client_phone_number_input.value = "";
+      pickup_date_input.value = "";
+      pickup_time_input.value = "";
+      updateTotal();
+    } else if (error.response) {
       console.error('Server error:', error.response.data);
       showCustomAlert(`Server error: ${error.response.data.message || 'Unable to submit order.'}`, 'error');
     } else {
@@ -207,4 +252,17 @@ async function submitOrder(orderData) {
       alert(error.message);
     }
   }
+}
+
+
+
+
+
+function generateOrderNum() {
+  const letters = '1234567890';
+  let id = '';
+  for (let i = 0; i < 4; i++) {
+    id += letters[Math.floor(Math.random() * letters.length)];
+  }
+  return id;
 }
