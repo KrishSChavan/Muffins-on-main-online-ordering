@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Register service worker on page load
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js')
@@ -10,6 +11,9 @@ if ('serviceWorker' in navigator) {
 }
 
 const socket = io(`${window.location.origin}/`); // Initialize socket.io client
+=======
+const socket = io(); // Initialize socket.io client
+>>>>>>> a15337a6c399976f28acf41ded0ca05e8c7cb0d5
 
 let allMenuData = [];
 let menuDataByCategories = {};

@@ -37,6 +37,10 @@ const app = express();
 const server = http.createServer(app);
 // const io = new Server(server);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a15337a6c399976f28acf41ded0ca05e8c7cb0d5
 const io = new Server(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
@@ -48,6 +52,10 @@ const io = new Server(server, {
   transports: ['polling', 'websocket']
 });
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a15337a6c399976f28acf41ded0ca05e8c7cb0d5
 app.use(bodyParser.json());
 //app.use(express.static(path.join(__dirname, 'app'))); // Serve static files from /app
 app.use('/', express.static(path.join(__dirname, 'app')));
